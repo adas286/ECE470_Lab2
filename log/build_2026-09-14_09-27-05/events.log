@@ -1,0 +1,50 @@
+[0.000000] (-) TimerEvent: {}
+[0.000449] (ece470labs) JobQueued: {'identifier': 'ece470labs', 'dependencies': OrderedDict()}
+[0.000489] (ece470labs) JobStarted: {'identifier': 'ece470labs'}
+[0.099714] (-) TimerEvent: {}
+[0.200034] (-) TimerEvent: {}
+[0.300328] (-) TimerEvent: {}
+[0.400596] (-) TimerEvent: {}
+[0.500951] (-) TimerEvent: {}
+[0.601223] (-) TimerEvent: {}
+[0.701527] (-) TimerEvent: {}
+[0.801820] (-) TimerEvent: {}
+[0.902081] (-) TimerEvent: {}
+[1.002324] (-) TimerEvent: {}
+[1.102565] (-) TimerEvent: {}
+[1.202821] (-) TimerEvent: {}
+[1.303059] (-) TimerEvent: {}
+[1.319333] (ece470labs) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'develop', '--editable', '--build-directory', '/home/adas44/ECE470Labs/build/ece470labs/build', '--no-deps', 'symlink_data'], 'cwd': '/home/adas44/ECE470Labs/build/ece470labs', 'env': OrderedDict({'GJS_DEBUG_TOPICS': 'JS ERROR;JS LOG', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'LMOD_DIR': '/usr/share/lmod/lmod/libexec', 'USER': 'adas44@illinois.edu', 'XDG_SESSION_TYPE': 'x11', 'LMOD_PKG': '/usr/share/lmod/lmod', 'DISTARCH': 'Linux-x86_64', 'CLUTTER_DISABLE_MIPMAPPED_TEXT': '1', 'SHLVL': '1', 'HOME': '/home/adas44', 'OLDPWD': '/home/adas44', 'DESKTOP_SESSION': 'ubuntu', 'LMODARCH': 'x86_64', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'MANAGERPID': '49900', 'SYSTEMD_EXEC_PID': '50221', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1305941/bus', 'COLORTERM': 'truecolor', 'TERMINATOR_DBUS_NAME': 'net.tenshu.Terminator23558193cd9818af7fe4d2c2f5bd9d00f', 'LMOD_sys': 'Linux', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'LOGNAME': 'adas44@illinois.edu', 'LMOD_VERSION': '8.6.19', 'JOURNAL_STREAM': '8:657121', '_': '/usr/bin/colcon', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1305941.slice/user@1305941.service/session.slice/org.gnome.Shell@x11.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'adas44@illinois.edu', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'WINDOWPATH': '2', 'PATH': '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/eceb-3071-l02:@/tmp/.ICE-unix/50174,unix/eceb-3071-l02:/tmp/.ICE-unix/50174', 'LMOD_SETTARG_FULL_SUPPORT': 'no', 'INVOCATION_ID': '815ef15a695a4e53a4aaaf5f67d83c5c', 'XDG_MENU_PREFIX': 'gnome-', 'XDG_RUNTIME_DIR': '/run/user/1305941', 'DISPLAY': ':1', 'TERMINATOR_DBUS_PATH': '/net/tenshu/Terminator2', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'LMOD_ROOT': '/usr/share/lmod', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1305941/gdm/Xauthority', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'SSH_AUTH_SOCK': '/run/user/1305941/keyring/ssh', 'SHELL': '/bin/bash', 'TERMINATOR_UUID': 'urn:uuid:68d7ac77-5194-4323-b866-7402825bb9e4', 'KRB5CCNAME': 'FILE:/tmp/krb5cc_1305941_T3fjw4', 'MODULEPATH_ROOT': '/usr/share/modulefiles', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'LMOD_CMD': '/usr/share/lmod/lmod/libexec/lmod', 'GPG_AGENT_INFO': '/run/user/1305941/gnupg/S.gpg-agent:0:1', 'GJS_DEBUG_OUTPUT': 'stderr', 'BASH_ENV': '/usr/share/lmod/lmod/init/bash', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/adas44/ECE470Labs/build/ece470labs', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'SOFTPATH': '/software', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'LMOD_arch': 'x86_64', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'MANPATH': '/usr/share/lmod/lmod/share/man:', 'VTE_VERSION': '7600', 'MODULEPATH': '/usr/share/modulefiles:/usr/share/Modules/modulefiles:/etc/lmod/modules:/usr/share/lmod/lmod/modulefiles/:/etc/modulefiles/env:/etc/modulefiles/class:/etc/modulefiles/ews_software', 'MODULESHOME': '/usr/share/lmod/lmod', 'PYTHONPATH': '/home/adas44/ECE470Labs/build/ece470labs/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/adas44/ECE470Labs/install/ece470labs/lib/python3.12/site-packages:'}), 'shell': False}
+[1.403169] (-) TimerEvent: {}
+[1.503418] (-) TimerEvent: {}
+[1.603785] (-) TimerEvent: {}
+[1.678888] (ece470labs) StdoutLine: {'line': b'running develop\n'}
+[1.703866] (-) TimerEvent: {}
+[1.786050] (ece470labs) StdoutLine: {'line': b'running egg_info\n'}
+[1.786270] (ece470labs) StdoutLine: {'line': b'creating ece470labs.egg-info\n'}
+[1.795696] (ece470labs) StdoutLine: {'line': b'writing ece470labs.egg-info/PKG-INFO\n'}
+[1.795997] (ece470labs) StdoutLine: {'line': b'writing dependency_links to ece470labs.egg-info/dependency_links.txt\n'}
+[1.796164] (ece470labs) StdoutLine: {'line': b'writing entry points to ece470labs.egg-info/entry_points.txt\n'}
+[1.796317] (ece470labs) StdoutLine: {'line': b'writing requirements to ece470labs.egg-info/requires.txt\n'}
+[1.796520] (ece470labs) StdoutLine: {'line': b'writing top-level names to ece470labs.egg-info/top_level.txt\n'}
+[1.796613] (ece470labs) StdoutLine: {'line': b"writing manifest file 'ece470labs.egg-info/SOURCES.txt'\n"}
+[1.803944] (-) TimerEvent: {}
+[1.821331] (ece470labs) StdoutLine: {'line': b"reading manifest file 'ece470labs.egg-info/SOURCES.txt'\n"}
+[1.821830] (ece470labs) StdoutLine: {'line': b"writing manifest file 'ece470labs.egg-info/SOURCES.txt'\n"}
+[1.842615] (ece470labs) StdoutLine: {'line': b'running build_ext\n'}
+[1.843266] (ece470labs) StdoutLine: {'line': b'Creating /home/adas44/ECE470Labs/install/ece470labs/lib/python3.12/site-packages/ece470labs.egg-link (link to .)\n'}
+[1.843971] (ece470labs) StdoutLine: {'line': b'Installing lab2_exec script to /home/adas44/ECE470Labs/install/ece470labs/lib/ece470labs\n'}
+[1.844190] (ece470labs) StdoutLine: {'line': b'Installing lab3_exec script to /home/adas44/ECE470Labs/install/ece470labs/lib/ece470labs\n'}
+[1.844323] (ece470labs) StdoutLine: {'line': b'Installing lab4_exec script to /home/adas44/ECE470Labs/install/ece470labs/lib/ece470labs\n'}
+[1.844482] (ece470labs) StdoutLine: {'line': b'Installing lab5_exec script to /home/adas44/ECE470Labs/install/ece470labs/lib/ece470labs\n'}
+[1.844646] (ece470labs) StdoutLine: {'line': b'\n'}
+[1.844732] (ece470labs) StdoutLine: {'line': b'Installed /home/adas44/ECE470Labs/build/ece470labs\n'}
+[1.844970] (ece470labs) StdoutLine: {'line': b'running symlink_data\n'}
+[1.845065] (ece470labs) StdoutLine: {'line': b'creating /home/adas44/ECE470Labs/install/ece470labs/share/ament_index\n'}
+[1.845136] (ece470labs) StdoutLine: {'line': b'creating /home/adas44/ECE470Labs/install/ece470labs/share/ament_index/resource_index\n'}
+[1.845202] (ece470labs) StdoutLine: {'line': b'creating /home/adas44/ECE470Labs/install/ece470labs/share/ament_index/resource_index/packages\n'}
+[1.845267] (ece470labs) StdoutLine: {'line': b'symbolically linking /home/adas44/ECE470Labs/build/ece470labs/resource/ece470labs -> /home/adas44/ECE470Labs/install/ece470labs/share/ament_index/resource_index/packages\n'}
+[1.845368] (ece470labs) StdoutLine: {'line': b'symbolically linking /home/adas44/ECE470Labs/build/ece470labs/package.xml -> /home/adas44/ECE470Labs/install/ece470labs/share/ece470labs\n'}
+[1.875217] (ece470labs) CommandEnded: {'returncode': 0}
+[1.889467] (ece470labs) JobEnded: {'identifier': 'ece470labs', 'rc': 0}
+[1.890192] (-) EventReactorShutdown: {}
