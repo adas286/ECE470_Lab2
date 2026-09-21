@@ -23,9 +23,9 @@ home = np.radians([120, -90, 90, -90, -90, 0])
 Q11 = [191.56*pi/180.0, -27.82*pi/180.0, 56.14*pi/180.0, -122.90*pi/180.0, -90.57*pi/180.0, 0.11*pi/180.0]
 Q21 = [191.56*pi/180.0, -31.67*pi/180.0, 54.99*pi/180.0, -117.90*pi/180.0, -90.55*pi/180.0, 0.11*pi/180.0]
 Q31 = [191.56*pi/180.0, -35.00*pi/180.0, 52.31*pi/180.0, -111.88*pi/180.0, -90.53*pi/180.0, 0.10*pi/180.0]
-Q12 = [176.98*pi/180.0, -49.76*pi/180.0, 103.57*pi/180.0, -148.39*pi/180.0, -89.47*pi/180.0, 345.51*pi/180.0]
-Q22 = [176.99*pi/180.0, -55.41*pi/180.0, 102.58*pi/180.0, -141.75*pi/180.0, -89.46*pi/180.0, 345.51*pi/180.0]
-Q32 = [176.99*pi/180.0, -60.82*pi/180.0, 100.34*pi/180.0, -134.11*pi/180.0, -89.46*pi/180.0, 345.11*pi/180.0]
+Q12 = [176.98*pi/180.0, -48.90*pi/180.0, 103.63*pi/180.0, -149.31*pi/180.0, -89.48*pi/180.0, (343.51-360)*pi/180.0]
+Q22 = [176.99*pi/180.0, -55.41*pi/180.0, 102.58*pi/180.0, -141.75*pi/180.0, -89.46*pi/180.0, (345.51-360)*pi/180.0]
+Q32 = [176.99*pi/180.0, -60.82*pi/180.0, 100.34*pi/180.0, -134.11*pi/180.0, -89.46*pi/180.0, (345.11-360)*pi/180.0]
 Q13 = [217.19*pi/180.0, -51.48*pi/180.0, 107.6*pi/180.0, -149.97*pi/180.0, -92.57*pi/180.0, 25.60*pi/180.0]
 Q23 = [217.42*pi/180.0, -57.37*pi/180.0, 105.24*pi/180.0, -141.72*pi/180.0, -92.56*pi/180.0, 25.83*pi/180.0]
 Q33 = [217.42*pi/180.0, -62.74*pi/180.0, 102.97*pi/180.0, -134.08*pi/180.0, -92.55*pi/180.0, 25.83*pi/180.0]
@@ -91,6 +91,7 @@ class UR3e(Node):
         called.
         """
         self.analog_in_0_value = msg.analog_in_states[0].state  
+        #print(f"Analog input 0 value: {self.analog_in_0_value}")  # Optional: print the value for debugging
 
 
 
@@ -189,19 +190,22 @@ class UR3e(Node):
         self.set_io(0, 1.0) 
         time.sleep(1.0) 
 
-        if self.analog_in_0_value == 0:
+        self.move_arm(home)  # Move up to pick up the block
+        if self.analog_in_0_value <= 2.0:  # Check if the block is detected
             self.set_io(0, 0.0)
-            raise BlockNotDetectedError(
+            self.get_logger().error(
                 f"No block detected at tower {start_tower}, height {start_height}")
+            sys.exit()
  
         # Go to the place pose
         if not self.move_arm(Q[end_height][end_tower]):
             self.get_logger().error(
                 f"Failed to reach place pose (tower {end_tower}, height {end_height})")
-            return 1
+            sys.exit()
  
         self.set_io(0, 0.0) 
         time.sleep(0.5)
+        self.move_arm(home)  # Move up after placing the block
  
         return 0
 
@@ -240,6 +244,11 @@ def main(args=None):
     node = UR3e()
     executor = SingleThreadedExecutor()
     executor.add_node(node)
+
+    while node.current_joint_state is None:
+        executor.spin_once(timeout_sec=0.1)
+        node.get_logger().info("Waiting for joint state messages...")
+        time.sleep(0.5)
 
     ############## Your Code Start Here ##############
     # TODO: modify the code below so that program can get user input
