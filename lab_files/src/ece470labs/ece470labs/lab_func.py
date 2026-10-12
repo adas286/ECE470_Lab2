@@ -126,13 +126,45 @@ Function that calculates an elbow up Inverse Kinematic solution for the UR3
 """
 def lab_invk(xWgrip, yWgrip, zWgrip, yaw_WgripDegree):
 	# =================== Your code starts here ====================#
-	
-	theta1 = 0.0
-	theta2 = 0.0
-	theta3 = 0.0
-	theta4 = 0.0
-	theta5 = 0.0
-	theta6 = 0.0
-	
+	L1 = 152
+	L2 = 120
+	L3 = 244
+	L4 = 93
+	L5 = 213
+	L6 = 104
+	L7 = 85
+	L8 = 92
+	L9 = 53.5
+	L10 = 59
+
+	x_grip = xWgrip +150
+	y_grip = yWgrip + 150
+	z_grip = zWgrip + 10
+
+	x_center = x_grip - np.cos(yaw_WgripDegree) * L9
+	y_center = y_grip - np.sin(yaw_WgripDegree) * L9
+	z_center = z_grip
+
+	beta = np.arctan2(y_center, x_center)
+	d = L2-L4+L6
+	r = np.sqrt(x_center**2 + y_center**2)
+	alpha = np.arcsin(d / r)
+	theta1 = (beta - alpha) * 180.0 / np.pi
+
+	z3end = z_center +L10 + L8
+	u = np.sqrt(r**2 -d**2) -L7
+	x3end = u*np.cos(theta1)
+	y3end = u*np.sin(theta1)
+	D = np.sqrt((x3end)**2 + (y3end)**2 + (z3end - L1)**2)
+
+	pi_theta3 = np.arccos((L5**2 + L3**2 - D**2) / (2 * L5 * L3))*180/np.pi
+	gamma = np.arccos((L3**2 + D**2 - L5**2) / (2 * L3 * D)) * 180 / np.pi
+
+	theta2 = -(np.arcsin((z3end-L1) / D) * 180 / np.pi + gamma)
+	theta3 = 180 - pi_theta3
+	theta4 = -theta3-theta2
+	theta5 = -90.0
+	theta6 = theta1 + 90 - yaw_WgripDegree
+	print("theta1:", theta1, "theta2:", theta2, "theta3:", theta3, "theta4:", theta4, "theta5:", theta5, "theta6:", theta6)
 	# ==============================================================#
 	return lab_fk(theta1, theta2, theta3, theta4, theta5, theta6)
