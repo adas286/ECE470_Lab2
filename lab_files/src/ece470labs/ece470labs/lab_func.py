@@ -125,46 +125,49 @@ def lab_fk(theta1, theta2, theta3, theta4, theta5, theta6):
 Function that calculates an elbow up Inverse Kinematic solution for the UR3
 """
 def lab_invk(xWgrip, yWgrip, zWgrip, yaw_WgripDegree):
-	# =================== Your code starts here ====================#
-	L1 = 152
-	L2 = 120
-	L3 = 244
-	L4 = 93
-	L5 = 213
-	L6 = 104
-	L7 = 85
-	L8 = 92
-	L9 = 53.5
-	L10 = 59
+    L1 = 0.152   # CHANGE: millimeters to meters.
+    L2 = 0.120   # CHANGE: millimeters to meters.
+    L3 = 0.244   # CHANGE: millimeters to meters.
+    L4 = 0.093   # CHANGE: millimeters to meters.
+    L5 = 0.213   # CHANGE: millimeters to meters.
+    L6 = 0.104   # CHANGE: millimeters to meters.
+    L7 = 0.085   # CHANGE: millimeters to meters.
+    L8 = 0.092   # CHANGE: millimeters to meters.
+    L9 = 0.0535  # CHANGE: millimeters to meters.
+    L10 = 0.059  # CHANGE: millimeters to meters.
 
-	x_grip = xWgrip +150
-	y_grip = yWgrip + 150
-	z_grip = zWgrip + 10
+    yaw = np.deg2rad(yaw_WgripDegree)  # CHANGE: convert yaw to radians.
 
-	x_center = x_grip - np.cos(yaw_WgripDegree) * L9
-	y_center = y_grip - np.sin(yaw_WgripDegree) * L9
-	z_center = z_grip
+    x_grip = xWgrip + 0.150  # CHANGE: offset in meters.
+    y_grip = yWgrip - 0.150  # CHANGE: meters and corrected sign.
+    z_grip = zWgrip - 0.010  # CHANGE: meters and corrected sign.
 
-	beta = np.arctan2(y_center, x_center)
-	d = L2-L4+L6
-	r = np.sqrt(x_center**2 + y_center**2)
-	alpha = np.arcsin(d / r)
-	theta1 = (beta - alpha) * 180.0 / np.pi
+    x_center = x_grip - np.cos(yaw) * L9  # CHANGE: use radians.
+    y_center = y_grip - np.sin(yaw) * L9  # CHANGE: use radians.
+    z_center = z_grip
 
-	z3end = z_center +L10 + L8
-	u = np.sqrt(r**2 -d**2) -L7
-	x3end = u*np.cos(theta1)
-	y3end = u*np.sin(theta1)
-	D = np.sqrt((x3end)**2 + (y3end)**2 + (z3end - L1)**2)
+    beta = np.arctan2(y_center, x_center)
+    d = L2 - L4 + L6
+    r = np.sqrt(x_center**2 + y_center**2)
+    alpha = np.arcsin(d / r)
+    theta1 = beta - alpha  # CHANGE: removed conversion to degrees.
 
-	pi_theta3 = np.arccos((L5**2 + L3**2 - D**2) / (2 * L5 * L3))*180/np.pi
-	gamma = np.arccos((L3**2 + D**2 - L5**2) / (2 * L3 * D)) * 180 / np.pi
+    z3end = z_center + L10 + L8
+    u = np.sqrt(r**2 - d**2) - L7
+    x3end = u * np.cos(theta1)
+    y3end = u * np.sin(theta1)
+    D = np.sqrt(x3end**2 + y3end**2 + (z3end - L1)**2)
 
-	theta2 = -(np.arcsin((z3end-L1) / D) * 180 / np.pi + gamma)
-	theta3 = 180 - pi_theta3
-	theta4 = -theta3-theta2
-	theta5 = -90.0
-	theta6 = theta1 + 90 - yaw_WgripDegree
-	print("theta1:", theta1, "theta2:", theta2, "theta3:", theta3, "theta4:", theta4, "theta5:", theta5, "theta6:", theta6)
-	# ==============================================================#
-	return lab_fk(theta1, theta2, theta3, theta4, theta5, theta6)
+    pi_theta3 = np.arccos((L5**2 + L3**2 - D**2) / (2 * L5 * L3))  # CHANGE: keep radians.
+    gamma = np.arccos((L3**2 + D**2 - L5**2) / (2 * L3 * D))  # CHANGE: keep radians.
+
+    theta2 = -(np.arcsin((z3end - L1) / D) + gamma) 
+    theta3 = np.pi - pi_theta3  # CHANGE: 180 degrees -> pi radians.
+    theta4 = -theta3 - theta2
+    theta5 = -np.pi / 2  # CHANGE: -90 degrees -> -pi/2 radians.
+    theta6 = theta1 + np.pi / 2 - yaw  # CHANGE: all terms in radians.
+
+    print("theta1:", theta1, "theta2:", theta2, "theta3:", theta3,
+          "theta4:", theta4, "theta5:", theta5, "theta6:", theta6)
+
+    return lab_fk(theta1, theta2, theta3, theta4, theta5, theta6)
