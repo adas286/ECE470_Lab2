@@ -30,6 +30,22 @@ home = np.radians([120, -90, 90, -90, -90, 0])
 # Position for UR3 not blocking the camera
 go_away = [270*pi/180.0, -90*pi/180.0, 90*pi/180.0, -90*pi/180.0, -90*pi/180.0, 135*pi/180.0]
 
+# ========================= Pick-and-place settings (meters / degrees) =========================
+# Tune these on your robot.
+SUCTION_PIN = 0            # digital output that turns the suction on (same pin you used in Lab 2)
+SUCTION_THRESHOLD = 1.9    # analog_in_0 value that means "block is held" -- use YOUR Lab 2 value
+BLOCK_HEIGHT = 0.025       # height of one block
+HOVER_Z = 0.10             # safe travel height above the table
+PICK_Z = BLOCK_HEIGHT - 0.003   # a few mm below the block top so the cup seals
+PLACE_CLEARANCE = 0.005    # release this far above the final resting height
+GRIP_YAW = 0.0             # gripper yaw passed to lab_invk (degrees)
+ 
+# World (x, y) of each stack. Pick clear, reachable spots that the camera
+# won't confuse with loose blocks (e.g., positions you already used in Lab 4).
+GREEN_STACK = (0.20, 0.00)
+YELLOW_STACK = (0.20, 0.10)
+# ==============================================================================================
+ 
 class UR3e(Node):
     def __init__(self):
         super().__init__('ur3e')
@@ -181,14 +197,69 @@ class UR3e(Node):
                 time.sleep(0.25)
                 return True
         return False
-
+        
+    # ---------- helpers for move_block_vision ----------
+    def spin_for(self, seconds):
+        """Wait while still processing callbacks (keeps analog_in_0 fresh)."""
+        end = time.time() + seconds
+        while time.time() < end:
+            rclpy.spin_once(self, timeout_sec=0.05)
+ 
+    def block_held(self):
+        """True if the suction sensor says a block is on the cup.
+        Flip the comparison if your Lab 2 logic was the other way around."""
+        return self.analog_in_0_value > SUCTION_THRESHOLD
+ 
+    def ik(self, x, y, z, yaw=GRIP_YAW):
+        """lab_invk wrapper: returns joint angles in radians, or None if unreachable."""
+        q = lab_invk(x, y, z, yaw)
+        if any(np.isnan(v) for v in q):
+            self.get_logger().error(f"IK has no solution for ({x:.3f}, {y:.3f}, {z:.3f})")
+            return None
+        return [float(v) for v in q]
 
     def move_block_vision(self, start_xy, target_xyz):
         """TODO: Pick block at start_xy and place it at target_xy, both in world frame.
         Hint: You can use your existing lab_invk, move_arm and set_io to pick and place a block.
         """
         # ========================= Student's code starts here =========================
-        pass
+        sx, sy = float(start_xy[0]), float(start_xy[1])
+        tx, ty, tz = (float(v) for v in target_xyz)
+ 
+        pick_hover = self.ik(sx, sy, HOVER_Z)
+        pick_down = self.ik(sx, sy, PICK_Z)
+        place_hover = self.ik(tx, ty, max(HOVER_Z, tz + 0.05))
+        place_down = self.ik(tx, ty, tz + PLACE_CLEARANCE)
+        if any(q is None for q in (pick_hover, pick_down, place_hover, place_down)):
+            self.get_logger().error(f"Skipping block at ({sx:.3f}, {sy:.3f}): out of reach.")
+            return False
+ 
+        # --- Pick ---
+        self.move_arm(pick_hover)
+        self.move_arm(pick_down)
+        self.set_io(SUCTION_PIN, 1.0)
+        self.spin_for(1.0)                 # let vacuum build and analog_in_0 update
+ 
+        if not self.block_held():
+            self.get_logger().error(f"ERROR: block missing at ({sx:.3f}, {sy:.3f}). Moving on.")
+            self.set_io(SUCTION_PIN, 0.0)
+            self.move_arm(pick_hover)
+            return False
+ 
+        self.move_arm(pick_hover)
+        self.spin_for(0.3)
+        if not self.block_held():
+            self.get_logger().error(f"ERROR: block dropped after lifting from ({sx:.3f}, {sy:.3f}).")
+            self.set_io(SUCTION_PIN, 0.0)
+            return False
+ 
+        # --- Place ---
+        self.move_arm(place_hover)
+        self.move_arm(place_down)
+        self.set_io(SUCTION_PIN, 0.0)
+        self.spin_for(0.5)                 # let the block release before lifting
+        self.move_arm(place_hover)
+        return True
         # ========================= Student's code ends here =========================
 
 
@@ -231,7 +302,22 @@ def main(args=None):
         the block you want to move, and target_xyz is the world coordinate of where you want to place it 
         (you can set z based on your needs).
         """
-
+        jobs = [
+            ("green", green_snapshot, GREEN_STACK),
+            ("yellow", yellow_snapshot, YELLOW_STACK),
+        ]
+ 
+        for color, blocks, (stack_x, stack_y) in jobs:
+            stack_count = 0   # blocks successfully placed on this stack so far
+            for i, xy in enumerate(blocks):
+                # Gripper height when the new block rests on top of the stack
+                target_z = (stack_count + 1) * BLOCK_HEIGHT
+                node.get_logger().info(
+                    f"Moving {color} block {i + 1}/{len(blocks)} from "
+                    f"({xy[0]:.3f}, {xy[1]:.3f}) to stack at z={target_z:.3f}")
+                if node.move_block_vision(xy, (stack_x, stack_y, target_z)):
+                    stack_count += 1
+                # on failure, move_block_vision already printed the error; keep going
         # ========================= Student's code ends here ===========================
 
         node.move_arm(go_away)
